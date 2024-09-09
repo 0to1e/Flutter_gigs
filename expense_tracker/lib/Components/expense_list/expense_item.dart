@@ -1,0 +1,54 @@
+import 'package:expense_tracker/models/expense.dart';
+import 'package:flutter/material.dart';
+
+class ExpenseItem extends StatelessWidget {
+  const ExpenseItem(this.expense, {super.key});
+  final Expense expense;
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(
+          horizontal: 10,
+          vertical: 15,
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              expense.title,
+              style: Theme.of(context).textTheme.titleSmall,
+            ),
+            const SizedBox(height: 10),
+            Row(
+              children: [
+                Text(
+                  "\$ ${expense.amount.toStringAsFixed(2)}",
+                  style: TextStyle(
+                      color: Theme.of(context).colorScheme.onPrimaryContainer),
+                ),
+                const Spacer(),
+                Row(
+                  children: [
+                    Icon(
+                      categoryIcons[expense.category],
+                      color: Theme.of(context).colorScheme.onPrimaryContainer,
+                    ),
+                    const SizedBox(width: 8),
+                    Text(
+                      expense.formattedDate,
+                      style: TextStyle(
+                          color:
+                              Theme.of(context).colorScheme.onPrimaryContainer),
+                    )
+                  ],
+                )
+              ],
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}
