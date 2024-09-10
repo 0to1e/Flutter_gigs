@@ -27,6 +27,7 @@ class _ExpenseTrackerState extends State<ExpenseTracker> {
 
   void _expenseAddOverlay() {
     showModalBottomSheet(
+        useSafeArea: true,
         isScrollControlled: true, //true causes full screen modal
         context: context,
         builder: (BuildContext ctx) => NewExpense(stateFunction: addExpense));
@@ -61,26 +62,33 @@ class _ExpenseTrackerState extends State<ExpenseTracker> {
 
   @override
   Widget build(BuildContext context) {
+
     Widget emptyContent = const Center(child: Text("Expences data is empty!"));
     Widget nonEmptyContent = ExpenseList(
         expenses: _registeredExpenses, onRemoveExpense: removeExpense);
     Widget mainContent =
         _registeredExpenses.isEmpty ? emptyContent : nonEmptyContent;
 
-    return Scaffold(
-        appBar: AppBar(
-          title: const Text("Flutter Expense Tracker"),
-          actions: [
-            IconButton(
-                onPressed: _expenseAddOverlay,
-                icon: const Icon(Icons.add))
-          ],
-        ),
-        body: Column(
-          children: [
-            Chart(expenses: _registeredExpenses),
-            Expanded(child: mainContent)
-          ],
-        ));
+    return LayoutBuilder(builder: (ctx, constraints) {
+      return Scaffold(
+          appBar: AppBar(
+            title: const Text("Flutter Expense Tracker"),
+            actions: [
+              IconButton(
+                  onPressed: _expenseAddOverlay, icon: const Icon(Icons.add))
+            ],
+          ),
+          body: constraints.maxWidth < 600
+              ? Column(
+                  children: [
+                    Chart(expenses: _registeredExpenses),
+                    Expanded(child: mainContent)
+                  ],
+                )
+              : Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                  Expanded(child: Chart(expenses: _registeredExpenses)),
+                  Expanded(child: mainContent)
+                ]));
+    });
   }
 }

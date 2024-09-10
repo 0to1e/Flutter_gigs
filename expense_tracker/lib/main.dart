@@ -8,10 +8,14 @@ var kDarkcolorScheme = ColorScheme.fromSeed(
     seedColor: const Color.fromARGB(255, 146, 111, 244));
 
 void main() {
+  // WidgetsFlutterBinding.ensureInitialized(); // this line is also needed incase locking the orientation
+
+  // How to lock the app's orientation to only portrait
+  // SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
+  //     .then((fn) {
   runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
     darkTheme: ThemeData.dark().copyWith(
-      useMaterial3: true,
       colorScheme: kDarkcolorScheme,
       appBarTheme: const AppBarTheme().copyWith(
           backgroundColor: kDarkcolorScheme.primary,
@@ -69,4 +73,5 @@ void main() {
     themeMode: ThemeMode.dark,
     home: const ExpenseTracker(),
   ));
+  // });
 }
